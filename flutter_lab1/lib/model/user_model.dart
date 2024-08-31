@@ -4,11 +4,11 @@
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+usermodel welcomeFromJson(String str) => usermodel.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String welcomeToJson(usermodel data) => json.encode(data.toJson());
 
-class Welcome {
+class usermodel {
     String id;
     String userName;
     String name;
@@ -17,7 +17,7 @@ class Welcome {
     DateTime updatedAt;
     int v;
 
-    Welcome({
+    usermodel({
         required this.id,
         required this.userName,
         required this.name,
@@ -27,7 +27,7 @@ class Welcome {
         required this.v,
     });
 
-    factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+    factory usermodel.fromJson(Map<String, dynamic> json) => usermodel(
         id: json["_id"],
         userName: json["user_name"],
         name: json["name"],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_lab1/controllers/auth_sevice.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -14,20 +15,33 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final List<String> _roles = ['Admin', 'User']; // Updated roles list
 
-  void _register() {
+  void _register() async {
     if (_formKey.currentState!.validate()) {
       final name = _nameController.text;
       final username = _usernameController.text;
       final password = _passwordController.text;
       final role = _selectedRole;
 
+      try {
+        final user =
+            await AuthService().register(username, password, role!, name);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Register successful')),
+        );
+      } catch (e) {
+        print(e);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Register Fail')),
+        );
+      }
+
       // Normally, you would send the user details to your backend server here
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registered: $name, $username, $role')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(content: Text('Registered: $name, $username, $role')),
+      // );
 
-      // Navigate back to the home page or another page after successful registration
+      // // Navigate back to the home page or another page after successful registration
       Navigator.pop(context);
     }
   }

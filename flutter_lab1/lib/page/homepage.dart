@@ -12,15 +12,16 @@ class HomePage extends StatelessWidget {
             Text('Welcome to the Home Page'),
             SizedBox(height: 20),
             ElevatedButton(
-              child: Text('Register'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-            ),
-            ElevatedButton(
               child: Text('Login'),
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
+              },
+            ),
+            SizedBox(height: 5),
+            ElevatedButton(
+              child: Text('Register'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/register');
               },
             ),
           ],

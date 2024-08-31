@@ -9,40 +9,41 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  String _role = '';
+
   final _formKey = GlobalKey<FormState>();
 
-  void _login() async{
+
+  Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text;
       final password = _passwordController.text;
+
       try {
         final user = await AuthService().login(username, password);
-      } catch (err) {
-        print(err);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login successful')),
+        );
+
+        // Clear text fields
+        _usernameController.clear();
+        _passwordController.clear();
+
+        // Navigate based on user role
+        if (user.role == 'Admin') {
+          Navigator.pushNamed(context, '/admin_page');
+        } else if (user.role == 'User') {
+          Navigator.pushNamed(context, '/user_page');
+        }
+      } catch (e) {
+        print(e); // For debugging purposes
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed: ${e.toString()}')),
+        );
       }
     }
   }
-
-  // void _login() {
-  //   if (_formKey.currentState!.validate()) {
-  //     final username = _usernameController.text;
-  //     final password = _passwordController.text;
-
-  //     // Dummy authentication check (replace with actual authentication logic)
-  //     if (username == 'user' && password == 'pass') {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Login successful as: $username')),
-  //       );
-
-  //       // Navigate to another page after successful login
-  //       Navigator.pop(context);
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(content: Text('Invalid username or password')),
-  //       );
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
